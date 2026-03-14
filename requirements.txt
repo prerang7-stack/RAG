@@ -44,7 +44,6 @@ langchain-community==0.4.1
 langchain-core==1.2.16
 langchain-groq==1.1.2
 langchain-huggingface==1.2.1
-langchain-ollama==1.0.1
 langchain-text-splitters==1.1.1
 langsmith==0.7.9
 markdown-it-py==4.0.0
@@ -58,7 +57,6 @@ mypy_extensions==1.1.0
 narwhals==2.17.0
 networkx==3.6.1
 numpy==2.4.2
-ollama==0.6.1
 orjson==3.11.7
 packaging==26.0
 pandas==2.3.3

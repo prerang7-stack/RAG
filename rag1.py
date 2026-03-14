@@ -41,7 +41,17 @@ EMBEDDING_MODEL = HuggingFaceEmbeddings(
 # LLM_MODEL = "gemma-3-27b-it.Q4_K_M"                          #LLM모델
 # EMBEDDING_MODEL = "multilingual-e5-large-instruct-q8_0"   #임베딩 모델
 
-LLM_MODEL = ChatGroq(model="llama-3.1-8b-instant", api_key="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")                   #LLM모델
+# LLM_MODEL = ChatGroq(model="llama-3.1-8b-instant", api_key="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")
+
+LLM_MODEL = ChatGroq(
+        # llama-3.1-8b 보다 더 최적화된 응답을 보여주는 모델
+        model="llama-3.1-8b-instant", 
+        api_key="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",
+        temperature=0.1,
+        # 속도를 극대화하기 위한 설정
+        max_tokens=500, # 답변 길이를 더 짧게 제한
+    )
+                   #LLM모델
 DB_PATH = "./faiss_db"                                    #벡터DB저장
 UPLOAD_PATH = "./uploaded_files"                          #문서저장
 UPLOADED_FILES_INFO_FILE = os.path.join(UPLOAD_PATH, "uploaded_files.json") #업로드파일 목록/해시저장
