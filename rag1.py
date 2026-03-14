@@ -36,38 +36,22 @@ EMBEDDING_MODEL = HuggingFaceEmbeddings(
     encode_kwargs=encode_kwargs
 )
 
-def load_config():
-    config_path = "config.yaml"
-    if not os.path.exists(config_path):
-        st.error(f"'{config_path}' 파일을 찾을 수 없습니다.")
-        st.stop()
-        
-    with open(config_path, "r", encoding="utf-8") as f:
-        return yaml.safe_load(f)
+# --- 1. 설정 및 초기화 ---
+# EMBEDDING_MODEL = "bge-reranker-v2-m3-q4_k_m"   #임베딩 모델. 동작 확인, BGE모델의 max chunk_size = 512 token임. 매우 중요
+# LLM_MODEL = "gemma-3-27b-it.Q4_K_M"                          #LLM모델
+# EMBEDDING_MODEL = "multilingual-e5-large-instruct-q8_0"   #임베딩 모델
 
-# --- 2. 설정 로드 및 LLM 정의 ---
-config = load_config()
-llm_cfg = config['llm_settings']
-
-# 가벼운 모델 설정을 config에서 읽어와 적용
-LLM_MODEL = ChatGroq(
-    model=llm_cfg['model_name'],
-    groq_api_key=llm_cfg['api_key'],
-    temperature=llm_cfg['temperature'],
-    max_tokens=llm_cfg['max_tokens']
-)
-
-# --- 3. 기존 load_models 함수 내에서도 활용 가능 ---
-@st.cache_resource
-def load_models():
-    # 임베딩 모델 설정 (기존 유지)
-    model_name = "intfloat/multilingual-e5-large"
-    embeddings = HuggingFaceEmbeddings(model_name=model_name)
-    
-    return embeddings, LLM_MODEL
-
-EMBEDDING_MODEL, _ = load_models()
-
+# LLM_MODEL = ChatGroq(model="llama-3.1-8b-instant", api_key="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")
+config = st.secrets 
+llm_cfg = config['api_key']
+llm = ChatGroq(
+        # llama-3.1-8b 보다 더 최적화된 응답을 보여주는 모델
+        model="llama-3.1-8b-instant", 
+        groq_api_key=llm_cfg,
+        temperature=0.1,
+        # 속도를 극대화하기 위한 설정
+        max_tokens=500, # 답변 길이를 더 짧게 제한
+    )
                    #LLM모델
 DB_PATH = "./faiss_db"                                    #벡터DB저장
 UPLOAD_PATH = "./uploaded_files"                          #문서저장
