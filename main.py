@@ -115,7 +115,7 @@ streamlit run main.py
 
         
 import streamlit as st
-st.header("🌸 3월14일 과제 점검 및 복습시간")
+st.header("🌸 3월14일 과제 점검 및 복습시간(By 미랑)")
 
 @st.dialog("Visual Studio Code 가상환경 설정방법", width="large")
 def show_venv_guide():
