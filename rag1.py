@@ -44,7 +44,7 @@ EMBEDDING_MODEL = HuggingFaceEmbeddings(
 # LLM_MODEL = ChatGroq(model="llama-3.1-8b-instant", api_key="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")
 config = st.secrets 
 llm_cfg = config['api_key']
-llm = ChatGroq(
+LLM_MODEL = ChatGroq(
         # llama-3.1-8b 보다 더 최적화된 응답을 보여주는 모델
         model="llama-3.1-8b-instant", 
         groq_api_key=llm_cfg,
