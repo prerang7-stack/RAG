@@ -1,0 +1,5 @@
+llm_settings:
+  model_name: "llama-3.2-3b-preview"  # 8B보다 더 가벼운 모델
+  api_key: "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"
+  temperature: 0.1
+  max_tokens: 500
