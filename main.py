@@ -1,84 +1,75 @@
 import streamlit as st
-from langchain_groq import ChatGroq
-from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
+import requests
+import json
 
-# 1. 페이지 설정 및 따뜻한 테마 적용
+# 페이지 설정
 st.set_page_config(page_title="Gemma-3 챗봇", layout="centered")
 
+# CSS로 간단한 디자인 수정 (이전에 논의한 테마 적용 가능)
 st.markdown("""
     <style>
-    .stApp { background-color: #FDFCF0; color: #433E3F; }
-    .block-container { padding-top: 2rem; max-width: 800px; }
-    [data-testid="stChatMessage"] {
-        border-radius: 15px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-    h1 { color: #8D7B68 !important; }
+    .block-container { padding-top: 2rem; }
     </style>
     """, unsafe_allow_html=True)
 
 st.title("🤖 My 챗봇")
-st.caption("⚙️ Groq Llama-3.1을 이용한 초고속 채팅 서비스(By rang)")
+st.caption("⚙️Ollama를 이용한 로컬 AI 채팅 서비스(By rang)")
 
-# 2. 보안 설정 (st.secrets 사용)
-# .streamlit/secrets.toml 파일에 api_key = "여러분의_키" 가 있어야 합니다.
-try:
-    llm_cfg = st.secrets["api_key"]
-except:
-    st.error("Secrets에 'api_key'가 설정되지 않았습니다.")
-    st.stop()
+# 1. 대화 내역 초기화
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
-# 3. 모델 초기화 (LangChain 사용)
-llm = ChatGroq(
-    model="llama-3.1-8b-instant", 
-    groq_api_key=llm_cfg,
-    temperature=0.1,
-    max_tokens=500,
-)
-
-# 4. 대화 내역 초기화 (시스템 메시지 포함)
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", "content": "당신은 든든한 군인 AI입니다. 군대 말투(~지 말입니다, ~습니까?)를 사용하십시오."}
     ]
 
-# 5. 기존 대화 내역 표시 (시스템 메시지 제외)
 for message in st.session_state.messages:
-    if message["role"] != "system":
+    if message["role"] != "system":  # 시스템 설정값은 화면에 출력 안 함
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
+            
+# 2. 기존 대화 내역 표시
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
 
-# 6. 사용자 입력 및 응답 로직
+# 3. 사용자 입력 받기
 if prompt := st.chat_input("메시지를 입력하세요..."):
-    # 유저 메시지 표시 및 저장
+    # 사용자 메시지 표시 및 저장
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
-
-    # 7. Groq 응답 생성 (Streaming 지원)
+  
+    # 4. Ollama API 호출 (Gemma-3-1b-it-Q8_0)
     with st.chat_message("assistant"):
         response_placeholder = st.empty()
         full_response = ""
         
-        # LangChain 형식에 맞게 메시지 변환
-        langchain_messages = []
-        for m in st.session_state.messages:
-            if m["role"] == "system":
-                langchain_messages.append(SystemMessage(content=m["content"]))
-            elif m["role"] == "user":
-                langchain_messages.append(HumanMessage(content=m["content"]))
-            elif m["role"] == "assistant":
-                langchain_messages.append(AIMessage(content=m["content"]))
+        # Ollama 로컬 API 엔드포인트
+        url = "http://localhost:11434/api/chat"
+        payload = {
+            "model": "gemma-3-1b-it-Q8_0",
+            "messages": st.session_state.messages,
+            "stream": True  # 실시간 응답(Streaming) 활성화
+        }
 
-        # 실시간 스트리밍 호출
         try:
-            for chunk in llm.stream(langchain_messages):
-                full_response += chunk.content
-                response_placeholder.markdown(full_response + "▌")
+            response = requests.post(url, json=payload, stream=True)
+            for i,line in enumerate(response.iter_lines()):
+                if line:
+                    chunk = json.loads(line)
+                    # if i >10: break;
+                    print(i,chunk)
+                    
+                    if "message" in chunk:
+                        content = chunk["message"].get("content", "")
+                        full_response += content
+                        response_placeholder.markdown(full_response + "▌")
             
             response_placeholder.markdown(full_response)
-            # 결과 저장
+            # 어시스턴트 메시지 저장
             st.session_state.messages.append({"role": "assistant", "content": full_response})
             
-        except Exception as e:
-            st.error(f"에러가 발생했습니다: {e}")
+        except requests.exceptions.ConnectionError:
+            st.error("Ollama가 실행 중인지 확인해주세요! (localhost:11434)")
