@@ -12,8 +12,8 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-st.title("🤖 My 챗봇(By rang)")
-st.caption("⚙️Ollama를 이용한 로컬 AI 채팅 서비스")
+st.title("🤖 My 챗봇")
+st.caption("⚙️Ollama를 이용한 로컬 AI 채팅 서비스(By rang)")
 
 # 1. 대화 내역 초기화
 if "messages" not in st.session_state:
