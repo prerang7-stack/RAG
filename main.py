@@ -9,7 +9,7 @@ col2, col1 = st.columns(2)
 
 with col1:
     # 1번 버튼: Ollama
-    target_url_1 = "https://9vuoctgunafxhhv4onxlm7.streamlit.app/"
+    target_url_1 = "https://ut4myvz5skrcz3rxfew66j.streamlit.app/"
     st.markdown(f"""
         <a href="{target_url_1}" target="_blank" style="text-decoration: none;">
             <div style="
