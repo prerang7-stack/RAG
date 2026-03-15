@@ -103,24 +103,7 @@ def init_db():
         )
     ''')    
     # 2. SystemAdmin 권한을 가진 사용자가 있는지 확인
-    c.execute("SELECT COUNT(*) FROM users WHERE role = 'SystemAdmin'")
-    admin_exists = c.fetchone()[0]    
-    # 3. 만약 관리자가 없다면 초기 관리자(admin) 생성
-    if admin_exists == 0:
-        admin_username = 'admin'
-        admin_password = '1'  # 초기 비밀번호
-        admin_name = 'admin'
-        admin_role = 'SystemAdmin'
-        admin_available = 'Y'        
-        # 비밀번호 SHA-256 해싱
-        hashed_pw = hashlib.sha256(admin_password.encode()).hexdigest()        
-        # INSERT 실행
-        c.execute('''
-            INSERT INTO users (username, password, name, role, available) 
-            VALUES (?, ?, ?, ?, ?)
-        ''', (admin_username, hashed_pw, admin_name, admin_role, admin_available))        
-        print(f"📢 초기 관리자 계정이 생성되었습니다. (ID: {admin_username} / PW: {admin_password})")
-    
+      
     conn.commit()
     conn.close()
 
