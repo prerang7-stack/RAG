@@ -67,11 +67,6 @@ EMBEDDING_MODEL = HuggingFaceEmbeddings(
 )
 
 # --- 1. 설정 및 초기화 ---
-# EMBEDDING_MODEL = "bge-reranker-v2-m3-q4_k_m"   #임베딩 모델. 동작 확인, BGE모델의 max chunk_size = 512 token임. 매우 중요
-# LLM_MODEL = "gemma-3-27b-it.Q4_K_M"                          #LLM모델
-# EMBEDDING_MODEL = "multilingual-e5-large-instruct-q8_0"   #임베딩 모델
-
-# LLM_MODEL = ChatGroq(model="llama-3.1-8b-instant", api_key="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")
 config = st.secrets 
 llm_cfg = config['api_key']
 LLM_MODEL = ChatGroq(
