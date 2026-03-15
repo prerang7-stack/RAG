@@ -2,12 +2,6 @@ import streamlit as st
 import requests
 import json
 
-과하지 않으면서도 포근하고 따뜻한 느낌을 주기 위해, 자극적인 원색 대신 **부드러운 크림색(Cream)**과 따뜻한 베이지(Beige), 그리고 심리적 안정감을 주는 웜 그레이(Warm Grey) 톤을 조합했습니다.
-
-기존의 st.markdown 부분을 아래 코드로 교체해 보세요.
-
-Python
-# CSS로 따뜻하고 감성적인 테마 적용
 st.markdown("""
     <style>
     /* 1. 전체 배경 및 기본 폰트 설정 */
