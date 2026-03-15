@@ -2,7 +2,7 @@ import streamlit as st
 
 # ... (기존 설정 및 테마 코드 생략) ...
 
-st.title("🤖 My 챗봇")
+st.title("🤖 My LLM + RAG")
 
 # 버튼을 나란히 배치하기 위해 컬럼 생성
 col2, col1, col3 = st.columns(3)
