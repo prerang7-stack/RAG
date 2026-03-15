@@ -28,6 +28,36 @@ from collections import Counter
 from langchain_groq import ChatGroq
 from langchain_huggingface import HuggingFaceEmbeddings
 
+st.set_page_config(
+    page_title="My Coffee App",
+    layout="centered",
+    # 주의: set_page_config에는 직접적인 배경색/텍스트색 파라미터가 없습니다.
+    # 대신 아래와 같이 테마는 유지하되, 정적인 값들을 설정할 수 있습니다.
+)
+
+# 텍스트 및 배경색을 소스에서 강제하려면 직접 CSS를 주입해야 합니다.
+st.markdown(f"""
+    <style>
+    .stApp {{
+        background-color: #FDF5E6;
+    }}
+    .stApp [data-testid="stHeader"] {{
+        background-color: rgba(0,0,0,0);
+    }}
+    h1, h2, h3, p, span {{
+        color: #3C2A21 !important;
+    }}
+    div[data-testid="stSidebar"] {{
+        background-color: #EADDCA;
+    }}
+    /* Primary Color 적용 (버튼 등) */
+    .stButton>button {{
+        background-color: #6F4E37;
+        color: white;
+    }}
+    </style>
+    """, unsafe_allow_html=True)
+
 model_name = "intfloat/multilingual-e5-large"
 encode_kwargs = {'normalize_embeddings': True}
 
@@ -649,7 +679,7 @@ def main_dashboard():
         </style>
     """, unsafe_allow_html=True)
     st.markdown(
-        f"<h2 style='text-align: center;'> 지식중심 & 업무중심의 사업관리 RAG </h2>",
+        f"<h2 style='text-align: center;'> 지식중심 & 업무중심의 동원업무관리 RAG </h2>",
         unsafe_allow_html=True
     )
 # --- 3. 사이드바 구성 ---
