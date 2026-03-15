@@ -306,22 +306,6 @@ def process_pdf(file):
     chunks = text_splitter.split_documents(documents)
     return chunks
 
-#** 기존 벡터DB에 추가
-        # 기존 DB에서 해당 파일명이 포함된 인덱스 제거 후 업데이트하는 로직
-        # FAISS는 부분 삭제가 복잡하므로, 메타데이터 필터링을 통해 새롭게 구성하거나 전체 재빌드 권장
-        # 여기서는 기존 DB에 추가하는 방식을 취하며, 중복 관리는 파일 업로드 단계에서 제어
-# def update_vectorstore(new_chunks, file_name):
-#     embeddings = OllamaEmbeddings(model=EMBEDDING_MODEL)
-#     if st.session_state.vectorstore is not None:
-#         st.session_state.vectorstore.add_documents(new_chunks)
-#     else:
-#         clean_chunks = [doc for doc in new_chunks if doc.page_content.strip()]
-#         # clean_chunks = clean_chunks[:18]
-#         # for i, doc in enumerate(clean_chunks):
-#         #     print(f"\n\n############\n{i} : : {doc}")
-#         st.session_state.vectorstore = FAISS.from_documents(clean_chunks, embeddings)
-#     st.session_state.vectorstore.save_local(DB_PATH)
-
 def update_vectorstore(new_chunks, file_name):
     # 전역 변수로 선언된 EMBEDDING_MODEL(HuggingFace)을 사용합니다.
     # 만약 함수 인자로 전달받지 않았다면 상단의 EMBEDDING_MODEL을 참조합니다.
