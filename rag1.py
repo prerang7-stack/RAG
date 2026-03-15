@@ -679,7 +679,7 @@ def main_dashboard():
         </style>
     """, unsafe_allow_html=True)
     st.markdown(
-        f"<h2 style='text-align: center;'> 지식중심 & 업무중심의 동원업무관리 RAG </h2>",
+        f"<h2 style='text-align: center;'> 지식중심 & 업무중심의 사업관리 RAG </h2>",
         unsafe_allow_html=True
     )
 # --- 3. 사이드바 구성 ---
