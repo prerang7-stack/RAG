@@ -21,7 +21,6 @@ st.title("🤖 My 챗봇")
 st.caption("⚙️ Groq Llama-3.1을 이용한 초고속 채팅 서비스(By rang)")
 
 # 2. 보안 설정 (st.secrets 사용)
-# .streamlit/secrets.toml 파일에 api_key = "여러분의_키" 가 있어야 합니다.
 try:
     llm_cfg = st.secrets["api_key"]
 except:
@@ -39,7 +38,7 @@ llm = ChatGroq(
 # 4. 대화 내역 초기화 (시스템 메시지 포함)
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        {"role": "system", "content": "당신은 든든한 군인 AI 강미랑입니다. 군대 말투(~지 말입니다, ~습니까?)를 사용하십시오."}
+        {"role": "system", "content": "당신은 든든한 군인 AI 랑입니다. 군대 말투(~지 말입니다, ~습니까?)를 사용하십시오."}
     ]
 
 # 5. 기존 대화 내역 표시 (시스템 메시지 제외)
