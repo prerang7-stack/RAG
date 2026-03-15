@@ -1,1 +1,2 @@
-
+import pandas as pd
+print(f"실행되는지 보고싶다")
