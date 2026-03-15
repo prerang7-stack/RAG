@@ -2,18 +2,57 @@ import streamlit as st
 import requests
 import json
 
-# 페이지 설정
-st.set_page_config(page_title="Gemma-3 챗봇", layout="centered")
+과하지 않으면서도 포근하고 따뜻한 느낌을 주기 위해, 자극적인 원색 대신 **부드러운 크림색(Cream)**과 따뜻한 베이지(Beige), 그리고 심리적 안정감을 주는 웜 그레이(Warm Grey) 톤을 조합했습니다.
 
-# CSS로 간단한 디자인 수정 (이전에 논의한 테마 적용 가능)
+기존의 st.markdown 부분을 아래 코드로 교체해 보세요.
+
+Python
+# CSS로 따뜻하고 감성적인 테마 적용
 st.markdown("""
     <style>
-    .block-container { padding-top: 2rem; }
+    /* 1. 전체 배경 및 기본 폰트 설정 */
+    .stApp {
+        background-color: #FDFCF0; /* 아주 연한 크림색 */
+        color: #433E3F; /* 따뜻한 느낌의 짙은 회색 */
+    }
+
+    /* 2. 중앙 컨텐츠 영역 설정 */
+    .block-container {
+        padding-top: 2rem;
+        max-width: 800px; /* 가독성을 위해 너비 제한 */
+    }
+
+    /* 3. 챗봇 대화창(메시지) 스타일 살짝 조정 */
+    [data-testid="stChatMessage"] {
+        background-color: #FFFFFF; /* 메시지 배경은 깨끗한 화이트 */
+        border-radius: 15px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* 과하지 않은 그림자 */
+        margin-bottom: 10px;
+    }
+
+    /* 4. 입력창 및 버튼 강조색 (인디안 핑크/베이지 계열) */
+    .stChatInputContainer {
+        padding-bottom: 2rem;
+    }
+    
+    /* 버튼이나 강조 텍스트에 쓰일 따뜻한 색상 */
+    h1, h2, h3, .st-emotion-cache-10trblm {
+        color: #8D7B68 !important; /* 따뜻한 갈색 톤 */
+    }
+
+    /* 스크롤바 디자인 (선택사항) */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #EADBC8;
+        border-radius: 10px;
+    }
     </style>
     """, unsafe_allow_html=True)
 
-st.title("🤖 Gemma-3-1b 챗봇")
-st.caption("Ollama를 이용한 로컬 AI 채팅 서비스")
+st.title("🤖 My 챗봇(By rang)")
+st.caption("⚙️Ollama를 이용한 로컬 AI 채팅 서비스")
 
 # 1. 대화 내역 초기화
 if "messages" not in st.session_state:
